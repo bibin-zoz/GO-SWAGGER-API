@@ -1,0 +1,234 @@
+definitions:
+  handlers.ErrorResponse:
+    properties:
+      error:
+        type: string
+    type: object
+  handlers.Response:
+    properties:
+      message:
+        type: string
+    type: object
+  models.Products:
+    properties:
+      category:
+        type: string
+      id:
+        type: integer
+      price:
+        type: integer
+      productName:
+        type: string
+      quantity:
+        type: integer
+    type: object
+  models.User:
+    properties:
+      content:
+        type: string
+      id:
+        type: integer
+      title:
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /admin/login:
+    post:
+      consumes:
+      - application/json
+      description: Logs in the admin user
+      parameters:
+      - description: Admin username
+        format: username
+        in: query
+        name: username
+        required: true
+        type: string
+      - description: Admin password
+        format: password
+        in: query
+        name: password
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successfully Login to Admin panel
+          schema:
+            type: string
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/handlers.ErrorResponse'
+      summary: Admin login
+  /admin_panel/products:
+    get:
+      description: Get a list of products in the admin panel
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Products'
+            type: array
+      summary: Get products
+  /admin_panel/products/add_product:
+    post:
+      consumes:
+      - application/json
+      description: Add a new product in the admin panel
+      parameters:
+      - description: Product object
+        in: body
+        name: product
+        required: true
+        schema:
+          $ref: '#/definitions/models.Products'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/handlers.Response'
+      summary: Add product
+  /products/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a User by its ID
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+      summary: Delete a Product by ID
+    put:
+      consumes:
+      - application/json
+      description: Update a Product by its ID
+      parameters:
+      - description: Product ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Updated Product object
+        in: body
+        name: updatedUser
+        required: true
+        schema:
+          $ref: '#/definitions/models.Products'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.User'
+      summary: Update a Product by ID
+  /users:
+    get:
+      consumes:
+      - application/json
+      description: Get a list of all Users
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.User'
+            type: array
+      summary: Get all User
+    post:
+      consumes:
+      - application/json
+      description: Create a new User with title and content
+      parameters:
+      - description: User object
+        in: body
+        name: User
+        required: true
+        schema:
+          $ref: '#/definitions/models.User'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.User'
+      summary: Create a new User
+  /users/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a User by its ID
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+      summary: Delete a User by ID
+    get:
+      consumes:
+      - application/json
+      description: Get a User by its ID
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.User'
+      summary: Get a User by ID
+    put:
+      consumes:
+      - application/json
+      description: Update a User by its ID
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Updated User object
+        in: body
+        name: updatedUser
+        required: true
+        schema:
+          $ref: '#/definitions/models.User'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.User'
+      summary: Update a User by ID
+swagger: "2.0"
